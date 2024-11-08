@@ -34,9 +34,10 @@ inputs:
     prismlauncher
     nodejs-slim
     bun
-    # spotify
     inputs.nixvim.packages.x86_64-linux.default
   ];
+
+  programs.bat.enable = true;
 
   programs.spicetify =
     let

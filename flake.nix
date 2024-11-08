@@ -16,6 +16,7 @@
     # NUR for firefox addons
     nur.url = "github:nix-community/NUR";
 
+    # Spotify addons
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -2,20 +2,23 @@
 {
   wayland.windowManager.hyprland = {
     enable = true;
-
+    catppuccin.enable = false;
     systemd.enable = true;
 
     settings = {
       "$mod" = "Super";
 
       exec-once = [
-        "kitty"
-        "librewolf"
-        "vesktop"
+        "[workspace 1 silent] kitty"
+        "[workspace 1 silent] librewolf"
+        "[workspace 2 silent] kitty"
+        "[workspace 3 silent] vesktop"
+        "[workspace 4 silent] spotify"
       ];
 
       monitor = [
         "HDMI-A-2, 2560x1440@74.97, 0x0, 1"
+        ", preferred, auto, 1"
       ];
       input = {
         kb_layout = "us";
@@ -29,16 +32,14 @@
         "__GLX_VENDOR_LIBRARY_NAME,nvidia"
         "GMB_BACKEND,nvidia-drm"
         "XDG_SESSION_TYPE,wayland"
-
-        #"XCURSOR_THEME,Bibata-Modern-Ice"
-        #"XCURSOR_SIZE,24"
       ];
 
       misc = {
-        vrr = false;
+        vrr = 1;
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         force_default_wallpaper = false;
+        middle_click_paste = false;
       };
 
       xwayland = {
@@ -131,11 +132,16 @@
         [
           "$mod+Shift, W, togglefloating"
           "$mod+Shift, F, fullscreen"
+
           "$mod, T, exec, kitty"
           "$mod, C, exec, librewolf"
           "$mod, Q, killactive"
+
           "$mod, Super_L, exec, pkill -x rofi || rofi -show run"
           '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
+
+          "$mod, mouse_up, workspace, +1"
+          "$mod, mouse_down, workspace, -1"
         ]
         ++ (
           # workspaces

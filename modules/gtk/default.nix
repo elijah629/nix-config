@@ -10,5 +10,6 @@
 
     # why archive :(
     catppuccin.enable = true;
+    catppuccin.icon.enable = true;
   };
 }

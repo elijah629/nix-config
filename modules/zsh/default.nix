@@ -7,7 +7,8 @@
     syntaxHighlighting.enable = true;
 
     shellAliases = {
-      update = "sudo nix flake update --flake /etc/nixos; sudo nixos-rebuild switch --show-trace --print-build-logs --verbose --flake /etc/nixos#nixos";
+      upgrade = "sudo nix flake update --flake /etc/nixos";
+      update = "sudo nixos-rebuild switch --show-trace --print-build-logs --verbose --flake /etc/nixos#nixos";
       windows = "sudo efibootmgr -n 0000; reboot";
       config = "cd /etc/nixos; sudo nvim .";
     };

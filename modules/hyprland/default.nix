@@ -89,7 +89,7 @@
 
       decoration = {
         rounding = 10;
-        drop_shadow = false;
+        shadow.enabled = false;
         dim_special = 0.3;
 
         blur = {

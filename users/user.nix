@@ -16,6 +16,7 @@ inputs:
     ../modules/cursor
     ../modules/catppuccin
     ../modules/gh
+    (import ../modules/spotify inputs)
   ];
 
   dconf = {
@@ -38,21 +39,6 @@ inputs:
   ];
 
   programs.bat.enable = true;
-
-  programs.spicetify =
-    let
-      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
-    in
-    {
-      enable = true;
-      enabledExtensions = with spicePkgs.extensions; [
-        adblock
-        hidePodcasts
-        shuffle
-      ];
-      theme = spicePkgs.themes.catppuccin;
-      colorScheme = "mocha";
-    };
 
   programs.btop.enable = true;
 

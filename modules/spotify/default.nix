@@ -12,9 +12,6 @@ inputs:
         hidePodcasts
         shuffle
       ];
-      enabledCustomApps = with spicePkgs.apps; [
-        lyrics
-      ];
       theme = spicePkgs.themes.catppuccin;
       colorScheme = "mocha";
     };

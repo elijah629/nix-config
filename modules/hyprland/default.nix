@@ -1,29 +1,35 @@
-{ ... }:
 {
+  inputs,
+  pkgs,
+  ...
+}: {
   wayland.windowManager.hyprland = {
+    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+
     enable = true;
-    catppuccin.enable = false;
     systemd.enable = true;
 
     settings = {
       "$mod" = "Super";
 
       exec-once = [
-        "[workspace 1 silent] kitty"
         "[workspace 1 silent] librewolf"
+        "[workspace 1 silent] kitty"
         "[workspace 2 silent] kitty"
-        "[workspace 3 silent] vesktop"
-        "[workspace 4 silent] spotify"
+
+        "[workspace 3 silent] legcord"
+        "[workspace 3 silent] spotify"
       ];
 
       monitor = [
-        "HDMI-A-2, 2560x1440@74.97, 0x0, 1"
-        ", preferred, auto, 1"
+        "HDMI-A-2, 2560x1440@74.97, 0x328, 1"
+        "DP-6, highrr, auto-right, 1"
       ];
+
       input = {
         kb_layout = "us";
         follow_mouse = true;
-        sensitivity = 0.1;
+        sensitivity = 0.2;
         force_no_accel = true;
       };
 
@@ -68,7 +74,6 @@
           "fade, 1, 10, default"
           "workspaces, 1, 5, wind"
         ];
-
       };
       general = {
         gaps_in = 3;
@@ -90,7 +95,6 @@
       decoration = {
         rounding = 10;
         shadow.enabled = false;
-        dim_special = 0.3;
 
         blur = {
           enabled = true;
@@ -104,12 +108,18 @@
       };
 
       windowrulev2 = [
-        "opacity 0.90 0.90, class:^(librewolf)$"
+        "opacity 0.90 0.90, class:^(librewolf)$, title:^((?!Netflix).)*"
         "opacity 0.90 0.90, class:^(org\\.prismlauncher\\.PrismLauncher)$"
         "opacity 0.90 0.90, class:^(Rofi)$"
         "opacity 0.80 0.80, class:^(kitty)$"
-        "opacity 0.80 0.80, class:^(vesktop)$"
+        "opacity 0.80 0.80, class:^(legcord)$"
+        "opacity 0.80 0.80, class:^(spotify)$"
+      ];
 
+      workspace = [
+        "1, monitor:DP-6"
+        "2, monitor:DP-6"
+        "3, monitor:HDMI-A-2"
       ];
 
       bindm = [
@@ -146,18 +156,15 @@
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-          builtins.concatLists (
-            builtins.genList (
-              i:
-              let
+          builtins.concatLists (builtins.genList (
+              i: let
                 ws = i + 1;
-              in
-              [
+              in [
                 "$mod, code:1${toString i}, workspace, ${toString ws}"
                 "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
               ]
-            ) 9
-          )
+            )
+            9)
         );
     };
   };

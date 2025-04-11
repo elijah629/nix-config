@@ -1,7 +1,8 @@
-inputs:
-{ pkgs, ... }:
-
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ../modules/git
     ../modules/zsh
@@ -16,35 +17,44 @@ inputs:
     ../modules/cursor
     ../modules/catppuccin
     ../modules/gh
-    (import ../modules/spotify inputs)
+    ../modules/spotify
+    {_module.args = {inherit inputs;};}
   ];
 
-  dconf = {
-    enable = true;
-    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
-  };
+  #dconf = {
+  #  enable = true;
+  #  settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  #};
+
+  #services.ollama = {
+  #  enable = true;
+  #};
 
   home.packages = with pkgs; [
-    vesktop
+    yt-dlp
+    vlc
     xdg-utils
     libnotify
-    hyprcursor
     grim
     slurp
     wl-clipboard
     prismlauncher
-    nodejs-slim
-    bun
+    unzip
+    screen
+    # Moved to devshells
+    #    nodejs
+    cargo
+    rustc
+    #bun
+    #fzf
+    marksman
+    markdownlint-cli2
+    legcord
+    qFlipper
     inputs.nixvim.packages.x86_64-linux.default
   ];
 
-  programs.bat.enable = true;
-
-  programs.btop.enable = true;
-
   fonts.fontconfig.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
-
-  home.stateVersion = "24.05";
+  home.stateVersion = "24.11";
 }

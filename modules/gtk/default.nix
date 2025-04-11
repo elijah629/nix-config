@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   gtk = {
     enable = true;
 
@@ -7,9 +6,5 @@
       name = "CascadiaCode";
       size = 12;
     };
-
-    # why archive :(
-    catppuccin.enable = true;
-    catppuccin.icon.enable = true;
   };
 }

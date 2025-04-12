@@ -31,11 +31,10 @@
     catppuccin,
     home-manager,
     nixvim,
-    alejandra,
     spicetify-nix,
     ...
   }: {
-    formatter.x86_64-linux = alejandra. kages.x86_64-linux.alejandra;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

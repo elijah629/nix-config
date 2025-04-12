@@ -9,7 +9,7 @@
       upgrade = "sudo nix flake update --flake /etc/nixos";
       update = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
       windows = "sudo efibootmgr -n 0000; reboot";
-      config = "cd /etc/nixos; sudo nvim .";
+      config = "cd /etc/nixos; nvim .";
     };
   };
 

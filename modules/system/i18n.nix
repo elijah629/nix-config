@@ -1,5 +1,6 @@
 {...}: {
   time.timeZone = "America/Los_Angeles";
+  time.hardwareClockInLocalTime = true;
 
   # Select internationalisation properties.
   i18n = {

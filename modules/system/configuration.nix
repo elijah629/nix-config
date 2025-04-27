@@ -16,15 +16,13 @@
     ./users.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
-
   home-manager.backupFileExtension = "backup";
 
   programs.dconf.enable = true;
   programs.zsh.enable = true;
 
   environment.systemPackages = with pkgs; [
-    zsh
+    # zsh
     git
     efibootmgr
     gcc

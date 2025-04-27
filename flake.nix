@@ -10,19 +10,20 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Hyprland (latest git)
-    # hyprland.url = "github:hyprwm/Hyprland";
-
     # Neovim setup
     nixvim.url = "github:elijah629/nix-lazyvim";
-
-    # NUR for firefox addons
-    #nur.url = "github:nix-community/NUR";
 
     # Spotify addons
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprland.url = "github:hyprwm/Hyprland";
+
+    hyprsplit = {
+      url = "github:shezdy/hyprsplit";
+      inputs.hyprland.follows = "hyprland";
     };
   };
 

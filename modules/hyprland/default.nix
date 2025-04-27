@@ -4,21 +4,32 @@
   ...
 }: {
   wayland.windowManager.hyprland = {
-    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
     enable = true;
     systemd.enable = true;
 
+    plugins = [
+      inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
+    ];
+
     settings = {
       "$mod" = "Super";
 
-      exec-once = [
-        "[workspace 1 silent] librewolf"
-        "[workspace 1 silent] kitty"
-        "[workspace 2 silent] kitty"
+      plugin = {
+        hyprsplit = {
+          num_workspaces = 5;
+        };
+      };
 
-        "[workspace 3 silent] legcord"
-        "[workspace 3 silent] spotify"
+      exec-once = [
+        "[workspace 6 silent] librewolf"
+        "[workspace 6 silent] kitty"
+        "[workspace 7 silent] kitty"
+
+        "[workspace 1 silent] legcord"
+        "[workspace 1 silent] spotify"
       ];
 
       monitor = [
@@ -55,6 +66,18 @@
       cursor = {
         no_hardware_cursors = true;
       };
+
+      workspace = [
+        "w[tv1], gapsout:0, gapsin:0"
+        "f[1], gapsout:0, gapsin:0"
+      ];
+
+      windowrule = [
+        "bordersize 0, floating:0, onworkspace:w[tv1]"
+        "rounding 0, floating:0, onworkspace:w[tv1]"
+        "bordersize 0, floating:0, onworkspace:f[1]"
+        "rounding 0, floating:0, onworkspace:f[1]"
+      ];
 
       animations = {
         enabled = true;
@@ -108,18 +131,11 @@
       };
 
       windowrulev2 = [
-        "opacity 0.90 0.90, class:^(librewolf)$, title:^((?!Netflix).)*"
         "opacity 0.90 0.90, class:^(org\\.prismlauncher\\.PrismLauncher)$"
         "opacity 0.90 0.90, class:^(Rofi)$"
         "opacity 0.80 0.80, class:^(kitty)$"
         "opacity 0.80 0.80, class:^(legcord)$"
         "opacity 0.80 0.80, class:^(spotify)$"
-      ];
-
-      workspace = [
-        "1, monitor:DP-6"
-        "2, monitor:DP-6"
-        "3, monitor:HDMI-A-2"
       ];
 
       bindm = [
@@ -150,18 +166,17 @@
           "$mod, Super_L, exec, pkill -x rofi || rofi -show run"
           '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
 
-          "$mod, mouse_up, workspace, +1"
-          "$mod, mouse_down, workspace, -1"
+          "$mod, mouse_up, split:workspace, +1"
+          "$mod, mouse_down, split:workspace, -1"
         ]
         ++ (
-          # workspaces
           # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
           builtins.concatLists (builtins.genList (
               i: let
-                ws = i + 1;
+                ws = toString (i + 1);
               in [
-                "$mod, code:1${toString i}, workspace, ${toString ws}"
-                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+                "$mod, ${ws}, split:workspace, ${ws}"
+                "$mod SHIFT, ${ws}, split:movetoworkspace, ${ws}"
               ]
             )
             9)

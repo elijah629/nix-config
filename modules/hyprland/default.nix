@@ -2,10 +2,12 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   wayland.windowManager.hyprland = {
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
     enable = true;
     systemd.enable = true;
@@ -33,8 +35,8 @@
       ];
 
       monitor = [
-        "HDMI-A-2, 2560x1440@74.97, 0x328, 1"
-        "DP-6, highrr, auto-right, 1"
+        "HDMI-A-1, 2560x1440@74.97, 0x328, 1"
+        "DP-3, highrr, auto-right, 1"
       ];
 
       input = {
@@ -143,10 +145,14 @@
         "$mod, mouse:273, resizewindow"
       ];
 
-      "$vol_show" = ''notify-send -a "t2" -r 91190 -t 800 "$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"'';
+      "$vol_show" =
+        ''notify-send -a "t2" -r 91190 -t 800 "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk -F': ' '{ printf "%d%%\n", $2 * 100 }')"'';
 
       bindl = [
-        ", XF86AudioMute, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 0 && $vol_show"
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioPlay, exec, playerctl play-pause"
+        ", XF86AudioNext, exec, playerctl next"
+        ", XF86AudioPrev, exec, playerctl previ"
       ];
 
       bindel = [
@@ -171,15 +177,18 @@
         ]
         ++ (
           # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-          builtins.concatLists (builtins.genList (
-              i: let
+          builtins.concatLists (
+            builtins.genList (
+              i:
+              let
                 ws = toString (i + 1);
-              in [
+              in
+              [
                 "$mod, ${ws}, split:workspace, ${ws}"
                 "$mod SHIFT, ${ws}, split:movetoworkspace, ${ws}"
               ]
-            )
-            9)
+            ) 9
+          )
         );
     };
   };

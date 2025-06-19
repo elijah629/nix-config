@@ -2,10 +2,11 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     ../modules/git
-    ../modules/zsh
+    ../modules/nushell
     ../modules/hyprpaper
     ../modules/mako
     ../modules/hyprland
@@ -18,7 +19,7 @@
     ../modules/catppuccin
     ../modules/gh
     ../modules/spotify
-    {_module.args = {inherit inputs;};}
+    { _module.args = { inherit inputs; }; }
   ];
 
   # Only for GTK Theme (not active)
@@ -46,14 +47,10 @@
 
     prismlauncher # two week minecraft phase
 
-    unzip # lsp in neovim
-    screen # Flipper CLI
-
-    nodejs # Node & Bu
+    nodejs # JS Dev
     bun
 
-    cargo # Rust Dev
-    rustc
+    rust-bin.stable.latest.default
 
     markdownlint-cli2 # Markdown LSP
     marksman
@@ -61,9 +58,9 @@
     legcord # Discord client
 
     qFlipper # my glorious flipper zero
+    screen # Accessing the flipper zero CLI
 
-    # Nvim
-    inputs.nixvim.packages.x86_64-linux.default
+    inputs.Akari.packages.${system}.default
   ];
 
   fonts.fontconfig.enable = true;

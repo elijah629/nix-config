@@ -1,6 +1,7 @@
-{pkgs, ...}: {
+{...}: {
+  catppuccin.mako.enable = false; # until fix
+
   services.mako = {
     enable = true;
-    defaultTimeout = 4000;
   };
 }

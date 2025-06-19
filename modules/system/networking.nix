@@ -1,9 +1,8 @@
-{...}: {
+_: {
   networking = {
     hostName = "nixos";
-    enableIPv6 = true;
-    networkmanager = {
-      enable = true;
-    };
+    networkmanager.enable = true;
   };
+
+  services.blueman.enable = true;
 }

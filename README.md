@@ -1,6 +1,6 @@
 # **NixOS Config** ⚙️
 
-This is myattempt at a NixOS setup.
+This is my attempt at a NixOS setup.
 
 ## **Features** 🚀
 

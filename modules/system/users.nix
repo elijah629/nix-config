@@ -1,10 +1,13 @@
-{pkgs, ...}: {
-  users.users.user = {
-    isNormalUser = true;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-    shell = pkgs.zsh;
+{ pkgs, ... }:
+{
+  users.users = {
+    user = {
+      isNormalUser = true;
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+      shell = pkgs.nushell;
+    };
   };
 }

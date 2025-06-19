@@ -1,4 +1,5 @@
-{...}: {
+{ pkgs, ... }:
+{
   programs.kitty = {
     enable = true;
     font.name = "CaskaydiaCove Nerd Font Mono";
@@ -10,6 +11,7 @@
       enable_audio_bell = false;
       font_size = 9.0;
       window_padding_width = 25;
+      shell = "${pkgs.nushell}/bin/nu";
     };
   };
 }

@@ -1,7 +1,10 @@
-{...}: {
-  catppuccin.mako.enable = false; # until fix
+_: {
+  catppuccin.mako.enable = true;
 
   services.mako = {
     enable = true;
+    settings = {
+      default-timeout = 4000;
+    };
   };
 }

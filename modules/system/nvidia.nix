@@ -1,5 +1,6 @@
-{config, ...}: {
-  services.xserver.videoDrivers = ["nvidia"];
+{ config, ... }:
+{
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware = {
     nvidia = {
@@ -18,8 +19,8 @@
 
   boot = {
     initrd = {
-      kernelModules = ["nvidia"];
+      kernelModules = [ "nvidia" ];
     };
-    extraModulePackages = [config.boot.kernelPackages.nvidia_x11];
+    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
   };
 }

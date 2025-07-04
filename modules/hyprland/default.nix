@@ -5,12 +5,13 @@
 }:
 {
   wayland.windowManager.hyprland = {
+    enable = true;
+    # set the flake package
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # make sure to also set the portal package, so that they are in sync
     portalPackage =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-
-    enable = true;
-    systemd.enable = true;
+    # systemd.enable = false; # see the NixOS module for hyprland. UWSM is enabled.
 
     plugins = [
       inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
@@ -35,8 +36,8 @@
       ];
 
       monitor = [
-        "HDMI-A-1, 2560x1440@74.97, 0x328, 1"
-        "DP-3, highrr, auto-right, 1"
+        "desc:Dell Inc. DELL S2719DM FKR0RS2, 2560x1440@74.97, 0x328, 1"
+        "desc:Shenzhen KTC Technology Group H27T22 0x00000001, highrr, auto-right, 1"
       ];
 
       input = {

@@ -57,7 +57,16 @@
 
     wl-clipboard # Copy/Paste in neovim
 
-    prismlauncher # two week minecraft phase
+    # two week minecraft phase
+    (prismlauncher.override {
+      # Add binary required by some mod
+      # additionalPrograms = [ ffmpeg ];
+
+      # Change Java runtimes available to Prism Launcher
+      jdks = [
+        jdk
+      ];
+    })
 
     nodejs # JS Dev
     bun

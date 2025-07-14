@@ -4,6 +4,7 @@
     enable = true;
     package = pkgs.librewolf;
 
+    profiles.default.extensions.force = true;
     /*
       profiles = {
          default = {

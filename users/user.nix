@@ -19,6 +19,7 @@
     ../modules/catppuccin
     ../modules/gh
     ../modules/spotify
+    ../modules/obs
     { _module.args = { inherit inputs; }; }
   ];
 
@@ -27,23 +28,6 @@
   #  enable = true;
   #  settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   # };
-
-  # ViBeCoDinG
-  # services.ollama = {
-  #  enable = true;
-  # };
-
-  programs.obs-studio = {
-    enable = true;
-    package = pkgs.obs-studio.override {
-      cudaSupport = true;
-    };
-    plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      obs-backgroundremoval
-      obs-pipewire-audio-capture
-    ];
-  };
 
   home.packages = with pkgs; [
     vlc # Play video 'n shit
@@ -77,12 +61,14 @@
     markdownlint-cli2 # Markdown LSP
     marksman
 
+    r2modman
+
     legcord # Discord client
 
     qFlipper # my glorious flipper zero
     screen # Accessing the flipper zero CLI
 
-    inputs.Akari.packages.${system}.default
+    inputs.toucanvim.packages.${system}.default
   ];
 
   fonts.fontconfig.enable = true;

@@ -83,24 +83,31 @@
       ];
 
       animations = {
-        enabled = true;
-        bezier = [
-          "wind, 0.05, 0.9, 0.1, 1.05"
-          "winIn, 0.1, 1.1, 0.1, 1.1"
-          "winOut, 0.3, -0.3, 0, 1"
-          "linear, 1, 1, 1, 1"
-        ];
-
-        animation = [
-          "windows, 1, 6, wind, slide"
-          "windowsIn, 1, 12, winIn, slide"
-          "windowsOut, 1, 5, winOut, slide"
-          "border, 1, 1, linear"
-          "borderangle, 1, 30, linear, loop"
-          "fade, 1, 10, default"
-          "workspaces, 1, 5, wind"
-        ];
+        enabled = false;
       };
+
+      /*
+        animations = {
+                enabled = true;
+                bezier = [
+                  "wind, 0.05, 0.9, 0.1, 1.05"
+                  "winIn, 0.1, 1.1, 0.1, 1.1"
+                  "winOut, 0.3, -0.3, 0, 1"
+                  "linear, 1, 1, 1, 1"
+                ];
+
+                animation = [
+                  "windows, 1, 6, wind, slide"
+                  "windowsIn, 1, 12, winIn, slide"
+                  "windowsOut, 1, 5, winOut, slide"
+                  "border, 1, 1, linear"
+                  "borderangle, 1, 30, linear, loop"
+                  "fade, 1, 10, default"
+                  "workspaces, 1, 5, wind"
+                ];
+        };
+      */
+
       general = {
         gaps_in = 3;
         gaps_out = 3;
@@ -161,36 +168,35 @@
         ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 1%+ && $vol_show"
       ];
 
-      bind =
-        [
-          "$mod+Shift, W, togglefloating"
-          "$mod+Shift, F, fullscreen"
+      bind = [
+        "$mod+Shift, W, togglefloating"
+        "$mod+Shift, F, fullscreen"
 
-          "$mod, T, exec, kitty"
-          "$mod, C, exec, librewolf"
-          "$mod, Q, killactive"
+        "$mod, T, exec, kitty"
+        "$mod, C, exec, librewolf"
+        "$mod, Q, killactive"
 
-          "$mod, Super_L, exec, pkill -x rofi || rofi -show run"
-          '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
+        "$mod, Super_L, exec, pkill -x rofi || rofi -show run"
+        '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
 
-          "$mod, mouse_up, split:workspace, +1"
-          "$mod, mouse_down, split:workspace, -1"
-        ]
-        ++ (
-          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-          builtins.concatLists (
-            builtins.genList (
-              i:
-              let
-                ws = toString (i + 1);
-              in
-              [
-                "$mod, ${ws}, split:workspace, ${ws}"
-                "$mod SHIFT, ${ws}, split:movetoworkspace, ${ws}"
-              ]
-            ) 9
-          )
-        );
+        "$mod, mouse_up, split:workspace, +1"
+        "$mod, mouse_down, split:workspace, -1"
+      ]
+      ++ (
+        # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+        builtins.concatLists (
+          builtins.genList (
+            i:
+            let
+              ws = toString (i + 1);
+            in
+            [
+              "$mod, ${ws}, split:workspace, ${ws}"
+              "$mod SHIFT, ${ws}, split:movetoworkspace, ${ws}"
+            ]
+          ) 9
+        )
+      );
     };
   };
   home.sessionVariables.NIXOS_OZONE_WL = "1";

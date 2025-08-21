@@ -24,6 +24,8 @@
     bat.enable = true;
   };
 
+  services.flatpak.enable = true;
+
   /*
     programs.uwsm = {
       enable = true;

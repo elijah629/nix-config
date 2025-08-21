@@ -13,8 +13,8 @@
     };
 
     # Neovim setup
-    Akari = {
-      url = "github:elijah629/Akari";
+    toucanvim = {
+      url = "github:elijah629/touca.nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -25,13 +25,13 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland";
+      url = "github:hyprwm/Hyprland?ref=v0.50.0";
       # Hyprland cache does not support custom nixpkgs versions
       #  inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprsplit = {
-      url = "github:shezdy/hyprsplit";
+      url = "github:shezdy/hyprsplit/e655de2ef61b19ca28aa9976104f1733ea57cdea";
       inputs.hyprland.follows = "hyprland";
     };
   };

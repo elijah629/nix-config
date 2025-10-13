@@ -55,6 +55,8 @@
     nodejs # JS Dev
     bun
 
+    rust-analyzer
+    clippy
     cargo
     rustc
 

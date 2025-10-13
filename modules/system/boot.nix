@@ -1,4 +1,4 @@
-{...}: {
+_: {
   boot = {
     loader = {
       systemd-boot = {
@@ -8,5 +8,7 @@
       efi.canTouchEfiVariables = true;
       timeout = 30;
     };
+
+    supportedFilesystems = [ "ntfs" ];
   };
 }

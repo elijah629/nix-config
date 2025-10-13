@@ -31,7 +31,7 @@
     };
 
     hyprsplit = {
-      url = "github:shezdy/hyprsplit/e655de2ef61b19ca28aa9976104f1733ea57cdea";
+      url = "github:shezdy/hyprsplit"; # "/e655de2ef61b19ca28aa9976104f1733ea57cdea";
       inputs.hyprland.follows = "hyprland";
     };
   };

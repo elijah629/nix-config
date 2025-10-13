@@ -5,6 +5,7 @@
     user = {
       isNormalUser = true;
       extraGroups = [
+        "dialout"
         "networkmanager"
         "wheel"
       ];

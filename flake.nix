@@ -4,7 +4,10 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
     # Catppuccin
-    catppuccin.url = "github:catppuccin/nix";
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Home manager
     home-manager = {
@@ -25,9 +28,9 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland?ref=v0.50.0";
+      url = "github:hyprwm/Hyprland?ref=v0.52.1";
       # Hyprland cache does not support custom nixpkgs versions
-      #  inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprsplit = {

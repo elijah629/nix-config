@@ -19,7 +19,7 @@
     ../modules/catppuccin
     ../modules/gh
     ../modules/spotify
-    ../modules/obs
+    # ../modules/obs
     { _module.args = { inherit inputs; }; }
   ];
 
@@ -70,7 +70,7 @@
     qFlipper # my glorious flipper zero
     screen # Accessing the flipper zero CLI
 
-    inputs.toucanvim.packages.${system}.default
+    inputs.toucanvim.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   fonts.fontconfig.enable = true;

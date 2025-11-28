@@ -14,7 +14,7 @@
     # systemd.enable = false; # see the NixOS module for hyprland. UWSM is enabled.
 
     plugins = [
-      inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
+      inputs.hyprsplit.packages.${pkgs.stdenv.hostPlatform.system}.hyprsplit
     ];
 
     settings = {
@@ -35,9 +35,36 @@
         "[workspace 1 silent] spotify"
       ];
 
-      monitor = [
-        "desc:Dell Inc. DELL S2719DM FKR0RS2, 2560x1440@74.97, 0x328, 1"
-        "desc:Shenzhen KTC Technology Group H27T22 0x00000001, highrr, auto-right, 1"
+      monitorv2 = [
+        {
+          output = "desc:Dell Inc. DELL S2719DM FKR0RS2";
+          mode = "2560x1440@74.97";
+          position = "0x328";
+          scale = 1;
+        }
+        {
+          output = "desc:Shenzhen KTC Technology Group H27T22 0x00000001";
+          mode = "highrr";
+          position = "auto-right";
+
+          scale = 1;
+          bitdepth = 10;
+
+          cm = "hdr";
+
+          supports_wide_color = 1;
+          supports_hdr = 1;
+
+          sdrbrightness = 1.3;
+          sdrsaturation = 1.03;
+
+          sdr_min_luminance = 0;
+          # sdr_max_luminance = 200;
+
+          # min_luminance = 0;
+          # max_luminance = 100;
+          # max_avg_luminance = 200;
+        }
       ];
 
       input = {
@@ -54,12 +81,22 @@
         "XDG_SESSION_TYPE,wayland"
       ];
 
+      experimental = {
+        xx_color_management_v4 = true;
+      };
+
       misc = {
         vrr = 1;
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         force_default_wallpaper = false;
         middle_click_paste = false;
+      };
+
+      render = {
+        direct_scanout = 1;
+        cm_fs_passthrough = 1;
+        cm_auto_hdr = 2;
       };
 
       xwayland = {
@@ -84,33 +121,29 @@
 
       animations = {
         enabled = false;
+        /*
+                  bezier = [
+                    "wind, 0.05, 0.9, 0.1, 1.05"
+                    "winIn, 0.1, 1.1, 0.1, 1.1"
+                    "winOut, 0.3, -0.3, 0, 1"
+                    "linear, 1, 1, 1, 1"
+                  ];
+
+                  animation = [
+                    "windows, 1, 6, wind, slide"
+                    "windowsIn, 1, 12, winIn, slide"
+                    "windowsOut, 1, 5, winOut, slide"
+                    "border, 1, 1, linear"
+                    "borderangle, 1, 30, linear, loop"
+                    "fade, 1, 10, default"
+                    "workspaces, 1, 5, wind"
+                  ];
+        */
       };
 
-      /*
-        animations = {
-                enabled = true;
-                bezier = [
-                  "wind, 0.05, 0.9, 0.1, 1.05"
-                  "winIn, 0.1, 1.1, 0.1, 1.1"
-                  "winOut, 0.3, -0.3, 0, 1"
-                  "linear, 1, 1, 1, 1"
-                ];
-
-                animation = [
-                  "windows, 1, 6, wind, slide"
-                  "windowsIn, 1, 12, winIn, slide"
-                  "windowsOut, 1, 5, winOut, slide"
-                  "border, 1, 1, linear"
-                  "borderangle, 1, 30, linear, loop"
-                  "fade, 1, 10, default"
-                  "workspaces, 1, 5, wind"
-                ];
-        };
-      */
-
       general = {
-        gaps_in = 3;
-        gaps_out = 3;
+        gaps_in = 2;
+        gaps_out = 0;
         border_size = 2;
         "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
         "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
@@ -126,8 +159,9 @@
       };
 
       decoration = {
-        rounding = 10;
-        shadow.enabled = false;
+        # rounding = 10;
+
+        #   shadow.enabled = false;
 
         blur = {
           enabled = true;
@@ -141,7 +175,7 @@
       };
 
       windowrulev2 = [
-        "opacity 0.90 0.90, class:^(org\\.prismlauncher\\.PrismLauncher)$"
+        # "opacity 0.90 0.90, class:^(org\\.prismlauncher\\.PrismLauncher)$"
         "opacity 0.90 0.90, class:^(Rofi)$"
         "opacity 0.80 0.80, class:^(kitty)$"
         "opacity 0.80 0.80, class:^(legcord)$"

@@ -1,8 +1,12 @@
 _: {
+  programs.delta = {
+    enableGitIntegration = true;
+    enable = true;
+  };
+
   programs.git = {
     enable = true;
-    delta.enable = true;
-    extraConfig = {
+    settings = {
       user = {
         name = "elijah629";
         email = "62805599+elijah629@users.noreply.github.com";

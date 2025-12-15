@@ -56,7 +56,7 @@
           supports_hdr = 1;
 
           sdrbrightness = 1.3;
-          sdrsaturation = 1.03;
+          sdrsaturation = 1;
 
           sdr_min_luminance = 0;
           # sdr_max_luminance = 200;

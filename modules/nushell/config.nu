@@ -24,6 +24,7 @@ def "config nixos" [] {
 def "nix clean" [] {
   sudo nix profile wipe-history;
   sudo nix store gc -v;
+  sudo nix-collect-garbage -d;
   sudo nix store optimise;
 }
 

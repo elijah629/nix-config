@@ -5,5 +5,6 @@
     noto-fonts-cjk-sans
     noto-fonts-color-emoji
     nerd-fonts.caskaydia-cove
+    geist-font
   ];
 }

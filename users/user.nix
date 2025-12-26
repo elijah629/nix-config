@@ -8,6 +8,7 @@
     ../modules/git
     ../modules/nushell
     ../modules/hyprpaper
+    ../modules/hyprsunset
     ../modules/mako
     ../modules/hyprland
     ../modules/kitty

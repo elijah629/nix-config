@@ -5,7 +5,7 @@
       isNormalUser = true;
       extraGroups = [
         "dialout"
-        "networkmanager"
+        # "networkmanager"
         "wheel"
       ];
       shell = pkgs.nushell;

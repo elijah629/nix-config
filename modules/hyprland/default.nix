@@ -75,9 +75,9 @@
       };
 
       env = [
-        "LIBVA_DRIVER_NAME,nvidia"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-        "GMB_BACKEND,nvidia-drm"
+        # "LIBVA_DRIVER_NAME,nvidia"
+        # "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        # "GMB_BACKEND,nvidia-drm"
         "XDG_SESSION_TYPE,wayland"
       ];
 
@@ -211,6 +211,7 @@
         "$mod, Q, killactive"
 
         "$mod, Super_L, exec, pkill -x rofi || rofi -show run"
+        # "$mod, Super_L, exec, hyprlauncher"
         '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
 
         "$mod, mouse_up, split:workspace, +1"

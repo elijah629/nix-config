@@ -11,7 +11,7 @@
     {
       enable = true;
       enabledExtensions = with spicePkgs.extensions; [
-        adblock
+        # adblock # Remove when free trial expires
         hidePodcasts
         shuffle
         trashbin

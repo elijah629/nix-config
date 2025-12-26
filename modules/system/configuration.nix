@@ -11,11 +11,15 @@
     ./boot.nix
     ./networking.nix
     ./nix.nix
-    ./nvidia.nix
+    # ./nvidia.nix
+    ./amdgpu.nix
     ./i18n.nix
     ./pipewire.nix
     ./users.nix
   ];
+
+  # fixes most ooms
+  zramSwap.enable = true;
 
   home-manager.backupFileExtension = "backup";
 
@@ -23,8 +27,6 @@
     dconf.enable = true;
     bat.enable = true;
   };
-
-  services.flatpak.enable = true;
 
   /*
     programs.uwsm = {

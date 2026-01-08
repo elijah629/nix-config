@@ -39,44 +39,42 @@
     };
   };
 
-  outputs =
-    inputs@{
-      nixpkgs,
-      catppuccin,
-      home-manager,
-      spicetify-nix,
-      ...
-    }:
-    {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
-      nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
+  outputs = inputs @ {
+    nixpkgs,
+    catppuccin,
+    home-manager,
+    spicetify-nix,
+    ...
+  }: {
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    nixosConfigurations = {
+      nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
 
-          modules = [
-            ./modules/system/configuration.nix
+        modules = [
+          ./modules/system/configuration.nix
 
-            catppuccin.nixosModules.catppuccin
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs; };
+          catppuccin.nixosModules.catppuccin
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = {inherit inputs;};
 
-                users.user = {
-                  imports = [
-                    ./users/user.nix
+              users.user = {
+                imports = [
+                  ./users/user.nix
 
-                    catppuccin.homeModules.catppuccin
-                    spicetify-nix.homeManagerModules.default
-                  ];
-                };
+                  catppuccin.homeModules.catppuccin
+                  spicetify-nix.homeManagerModules.default
+                ];
               };
-            }
-          ];
-        };
+            };
+          }
+        ];
       };
     };
+  };
 }

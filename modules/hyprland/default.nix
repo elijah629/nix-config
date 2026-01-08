@@ -2,8 +2,7 @@
   inputs,
   pkgs,
   ...
-}:
-{
+}: {
   wayland.windowManager.hyprland = {
     enable = true;
     # set the flake package
@@ -27,12 +26,11 @@
       };
 
       exec-once = [
-        "[workspace 6 silent] librewolf"
-        "[workspace 6 silent] kitty"
-        "[workspace 7 silent] kitty"
+        "[workspace 1 silent] kitty"
+        "[workspace 1 silent] librewolf"
 
-        "[workspace 1 silent] legcord"
-        "[workspace 1 silent] spotify"
+        "[workspace 6 silent] legcord"
+        "[workspace 6 silent] jellyfin-desktop"
       ];
 
       monitorv2 = [
@@ -78,6 +76,8 @@
         # "LIBVA_DRIVER_NAME,nvidia"
         # "__GLX_VENDOR_LIBRARY_NAME,nvidia"
         # "GMB_BACKEND,nvidia-drm"
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_DESKTOP,Hyprland"
         "XDG_SESSION_TYPE,wayland"
       ];
 
@@ -86,7 +86,8 @@
       };
 
       misc = {
-        vrr = 1;
+        vrr = 0;
+        vfr = false;
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         force_default_wallpaper = false;
@@ -122,22 +123,22 @@
       animations = {
         enabled = false;
         /*
-                  bezier = [
-                    "wind, 0.05, 0.9, 0.1, 1.05"
-                    "winIn, 0.1, 1.1, 0.1, 1.1"
-                    "winOut, 0.3, -0.3, 0, 1"
-                    "linear, 1, 1, 1, 1"
-                  ];
+        bezier = [
+          "wind, 0.05, 0.9, 0.1, 1.05"
+          "winIn, 0.1, 1.1, 0.1, 1.1"
+          "winOut, 0.3, -0.3, 0, 1"
+          "linear, 1, 1, 1, 1"
+        ];
 
-                  animation = [
-                    "windows, 1, 6, wind, slide"
-                    "windowsIn, 1, 12, winIn, slide"
-                    "windowsOut, 1, 5, winOut, slide"
-                    "border, 1, 1, linear"
-                    "borderangle, 1, 30, linear, loop"
-                    "fade, 1, 10, default"
-                    "workspaces, 1, 5, wind"
-                  ];
+        animation = [
+          "windows, 1, 6, wind, slide"
+          "windowsIn, 1, 12, winIn, slide"
+          "windowsOut, 1, 5, winOut, slide"
+          "border, 1, 1, linear"
+          "borderangle, 1, 30, linear, loop"
+          "fade, 1, 10, default"
+          "workspaces, 1, 5, wind"
+        ];
         */
       };
 
@@ -174,21 +175,20 @@
         };
       };
 
-      windowrulev2 = [
-        # "opacity 0.90 0.90, class:^(org\\.prismlauncher\\.PrismLauncher)$"
-        "opacity 0.90 0.90, class:^(Rofi)$"
-        "opacity 0.80 0.80, class:^(kitty)$"
-        "opacity 0.80 0.80, class:^(legcord)$"
-        "opacity 0.80 0.80, class:^(spotify)$"
-      ];
+      # windowrulev2 = [
+      #   # "opacity 0.90 0.90, class:^(org\\.prismlauncher\\.PrismLauncher)$"
+      #   "opacity 0.90 0.90, class:^(Rofi)$"
+      #   "opacity 0.80 0.80, class:^(kitty)$"
+      #   "opacity 0.80 0.80, class:^(legcord)$"
+      #   "opacity 0.80 0.80, class:^(spotify)$"
+      # ];
 
       bindm = [
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
       ];
 
-      "$vol_show" =
-        ''notify-send -a "t2" -r 91190 -t 800 "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk -F': ' '{ printf "%d%%\n", $2 * 100 }')"'';
+      "$vol_show" = ''notify-send -a "t2" -r 91190 -t 800 "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk -F': ' '{ printf "%d%%\n", $2 * 100 }')"'';
 
       bindl = [
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
@@ -202,36 +202,36 @@
         ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 1%+ && $vol_show"
       ];
 
-      bind = [
-        "$mod+Shift, W, togglefloating"
-        "$mod+Shift, F, fullscreen"
+      bind =
+        [
+          "$mod+Shift, W, togglefloating"
+          "$mod+Shift, F, fullscreen"
 
-        "$mod, T, exec, kitty"
-        "$mod, C, exec, librewolf"
-        "$mod, Q, killactive"
+          "$mod, T, exec, kitty"
+          "$mod, C, exec, librewolf"
+          "$mod, Q, killactive"
 
-        "$mod, Super_L, exec, pkill -x rofi || rofi -show run"
-        # "$mod, Super_L, exec, hyprlauncher"
-        '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
+          "$mod, Super_L, exec, pkill -x fuzzel || fuzzel"
+          # "$mod, Super_L, exec, hyprlauncher"
+          '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
 
-        "$mod, mouse_up, split:workspace, +1"
-        "$mod, mouse_down, split:workspace, -1"
-      ]
-      ++ (
-        # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-        builtins.concatLists (
-          builtins.genList (
-            i:
-            let
-              ws = toString (i + 1);
-            in
-            [
-              "$mod, ${ws}, split:workspace, ${ws}"
-              "$mod SHIFT, ${ws}, split:movetoworkspace, ${ws}"
-            ]
-          ) 9
-        )
-      );
+          "$mod, mouse_up, split:workspace, +1"
+          "$mod, mouse_down, split:workspace, -1"
+        ]
+        ++ (
+          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+          builtins.concatLists (
+            builtins.genList (
+              i: let
+                ws = toString (i + 1);
+              in [
+                "$mod, ${ws}, split:workspace, ${ws}"
+                "$mod SHIFT, ${ws}, split:movetoworkspace, ${ws}"
+              ]
+            )
+            9
+          )
+        );
     };
   };
   home.sessionVariables.NIXOS_OZONE_WL = "1";

@@ -4,8 +4,7 @@
   pkgs,
   modulesPath,
   ...
-}:
-{
+}: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -18,9 +17,9 @@
     "usbhid"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-amd"];
+  boot.extraModulePackages = [];
 
   # boot.initrd.luks.devices."luks-34c76cce-5afd-4d30-9a99-ce905897ae6c".device = "/dev/disk/by-uuid/34c76cce-5afd-4d30-9a99-ce905897ae6c";
 
@@ -33,7 +32,7 @@
     ];
   };
 
-  swapDevices = [ ];
+  swapDevices = [];
 
   networking.useDHCP = lib.mkDefault true;
 
@@ -50,10 +49,10 @@
     };
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2d14519c-fe4c-4586-acb8-7268f0755f0e";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/2d14519c-fe4c-4586-acb8-7268f0755f0e";
+    fsType = "ext4";
+  };
 
   boot.initrd.luks.devices."root".device = "/dev/disk/by-uuid/34c76cce-5afd-4d30-9a99-ce905897ae6c";
 }

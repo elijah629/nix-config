@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   xdg = {
     autostart.enable = true;
     portal = {
@@ -10,7 +9,7 @@
       #];
       config = {
         common = {
-          default = [ "gtk" ];
+          default = ["gtk"];
         };
       };
     };

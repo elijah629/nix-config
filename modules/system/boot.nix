@@ -9,6 +9,6 @@ _: {
       timeout = 30;
     };
 
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = ["ntfs"];
   };
 }

@@ -1,5 +1,8 @@
-{ pkgs, inputs, ... }:
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -16,6 +19,8 @@
     ./i18n.nix
     ./pipewire.nix
     ./users.nix
+
+    # ./sddm.nix
   ];
 
   # fixes most ooms
@@ -27,20 +32,6 @@
     dconf.enable = true;
     bat.enable = true;
   };
-
-  /*
-    programs.uwsm = {
-      enable = true;
-
-      waylandCompositors = {
-        hyprland = {
-          prettyName = "Hyprland";
-          comment = "Hyprland compositor managed by UWSM";
-          binPath = "/run/current-system/sw/bin/Hyprland";
-        };
-      };
-    };
-  */
 
   # Must be enabled regardless of hyprland setup
   programs.hyprland = {
@@ -64,19 +55,18 @@
       let
         base = pkgs.appimageTools.defaultFhsEnvArgs;
       in
-      pkgs.buildFHSEnv (
-        base
-        // {
-          name = "fhs";
-          targetPkgs =
-            pkgs:
+        pkgs.buildFHSEnv (
+          base
+          // {
+            name = "fhs";
+            targetPkgs = pkgs:
             # pkgs.appimageTools provides basic packages required by most software.
-            base.targetPkgs pkgs;
-          profile = "export FHS=1";
-          runScript = "nu";
-          extraOutputsToInstall = [ "dev" ];
-        }
-      )
+              base.targetPkgs pkgs;
+            profile = "export FHS=1";
+            runScript = "nu";
+            extraOutputsToInstall = ["dev"];
+          }
+        )
     )
   ];
 

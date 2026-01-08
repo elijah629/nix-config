@@ -2,8 +2,7 @@
   pkgs,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
     ../modules/git
     ../modules/nushell
@@ -14,14 +13,14 @@
     ../modules/kitty
     ../modules/librewolf
     ../modules/gtk
-    ../modules/rofi
+    ../modules/fuzzel
     ../modules/xdg
     ../modules/cursor
     ../modules/catppuccin
     ../modules/gh
     ../modules/spotify
     # ../modules/obs
-    { _module.args = { inherit inputs; }; }
+    {_module.args = {inherit inputs;};}
   ];
 
   # Only for GTK Theme (not active)
@@ -72,6 +71,8 @@
     screen # Accessing the flipper zero CLI
 
     inputs.toucanvim.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+    jellyfin-desktop
   ];
 
   fonts.fontconfig.enable = true;

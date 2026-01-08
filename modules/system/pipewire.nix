@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   security.rtkit.enable = true;
 
   services.pipewire = {
@@ -11,7 +10,7 @@
     wireplumber.enable = true;
     wireplumber.extraConfig."99-force-profile"."alsa_monitor.rules" = [
       {
-        matches = [ { "device.name" = "matches:alsa_card.usb-*"; } ];
+        matches = [{"device.name" = "matches:alsa_card.usb-*";}];
         apply_properties."device.profile" = "output:iec958-stereo+input:mono-fallback";
       }
     ];

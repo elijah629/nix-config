@@ -2,7 +2,9 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
+
   wayland.windowManager.hyprland = {
     enable = true;
     # set the flake package
@@ -10,7 +12,7 @@
     # make sure to also set the portal package, so that they are in sync
     portalPackage =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-    # systemd.enable = false; # see the NixOS module for hyprland. UWSM is enabled.
+    systemd.enable = true;
 
     plugins = [
       inputs.hyprsplit.packages.${pkgs.stdenv.hostPlatform.system}.hyprsplit
@@ -22,41 +24,43 @@
       plugin = {
         hyprsplit = {
           num_workspaces = 5;
+          monitor_priority = "desc:Dell Inc. DELL S2719DM FKR0RS2, desc:Shenzhen KTC Technology Group H27T22 0x00000001";
         };
       };
 
       exec-once = [
+        "systemctl --user start hyprpolkitagent"
+
         "[workspace 1 silent] kitty"
         "[workspace 1 silent] librewolf"
 
         "[workspace 6 silent] legcord"
-        "[workspace 6 silent] jellyfin-desktop"
+        "[workspace 6 silent] finamp"
       ];
 
       monitorv2 = [
-        {
-          output = "desc:Dell Inc. DELL S2719DM FKR0RS2";
-          mode = "2560x1440@74.97";
-          position = "0x328";
-          scale = 1;
-        }
+        /*
+          {
+            output = "desc:Dell Inc. DELL S2719DM FKR0RS2";
+            mode = "2560x1440@74.97";
+            position = "0x328";
+            scale = 1;
+          }
+        */
         {
           output = "desc:Shenzhen KTC Technology Group H27T22 0x00000001";
           mode = "highrr";
           position = "auto-right";
-
           scale = 1;
+
           bitdepth = 10;
-
           cm = "hdr";
-
-          supports_wide_color = 1;
-          supports_hdr = 1;
+          sdr_eotf = 2;
 
           sdrbrightness = 1.3;
           sdrsaturation = 1;
 
-          sdr_min_luminance = 0;
+          # sdr_min_luminance = 0;
           # sdr_max_luminance = 200;
 
           # min_luminance = 0;
@@ -68,7 +72,7 @@
       input = {
         kb_layout = "us";
         follow_mouse = true;
-        sensitivity = 0.2;
+        sensitivity = 0.25;
         force_no_accel = true;
       };
 
@@ -81,10 +85,6 @@
         "XDG_SESSION_TYPE,wayland"
       ];
 
-      experimental = {
-        xx_color_management_v4 = true;
-      };
-
       misc = {
         vrr = 0;
         vfr = false;
@@ -96,8 +96,10 @@
 
       render = {
         direct_scanout = 1;
+        cm_enabled = true;
         cm_fs_passthrough = 1;
         cm_auto_hdr = 2;
+        send_content_type = true;
       };
 
       xwayland = {
@@ -114,31 +116,37 @@
       ];
 
       windowrule = [
-        "bordersize 0, floating:0, onworkspace:w[tv1]"
-        "rounding 0, floating:0, onworkspace:w[tv1]"
-        "bordersize 0, floating:0, onworkspace:f[1]"
-        "rounding 0, floating:0, onworkspace:f[1]"
+        "match:float 0, match:workspace w[tv1], border_size 0"
+        "match:float 0, match:workspace w[tv1], rounding 0"
+        "match:float 0, match:workspace f[1], border_size 0"
+        "match:float 0, match:workspace f[1], rounding 0"
+
+        # "match:class ^(org\\.prismlauncher\\.PrismLauncher)$, opacity 0.90 0.90"
+        "match:class ^(Rofi)$, opacity 0.90 0.90"
+        "match:class ^(kitty)$, opacity 0.80 0.80"
+        "match:class ^(legcord)$, opacity 0.80 0.80"
+        "match:class ^(spotify)$, opacity 0.80 0.80"
       ];
 
       animations = {
         enabled = false;
         /*
-        bezier = [
-          "wind, 0.05, 0.9, 0.1, 1.05"
-          "winIn, 0.1, 1.1, 0.1, 1.1"
-          "winOut, 0.3, -0.3, 0, 1"
-          "linear, 1, 1, 1, 1"
-        ];
+          bezier = [
+            "wind, 0.05, 0.9, 0.1, 1.05"
+            "winIn, 0.1, 1.1, 0.1, 1.1"
+            "winOut, 0.3, -0.3, 0, 1"
+            "linear, 1, 1, 1, 1"
+          ];
 
-        animation = [
-          "windows, 1, 6, wind, slide"
-          "windowsIn, 1, 12, winIn, slide"
-          "windowsOut, 1, 5, winOut, slide"
-          "border, 1, 1, linear"
-          "borderangle, 1, 30, linear, loop"
-          "fade, 1, 10, default"
-          "workspaces, 1, 5, wind"
-        ];
+          animation = [
+            "windows, 1, 6, wind, slide"
+            "windowsIn, 1, 12, winIn, slide"
+            "windowsOut, 1, 5, winOut, slide"
+            "border, 1, 1, linear"
+            "borderangle, 1, 30, linear, loop"
+            "fade, 1, 10, default"
+            "workspaces, 1, 5, wind"
+          ];
         */
       };
 
@@ -175,26 +183,19 @@
         };
       };
 
-      # windowrulev2 = [
-      #   # "opacity 0.90 0.90, class:^(org\\.prismlauncher\\.PrismLauncher)$"
-      #   "opacity 0.90 0.90, class:^(Rofi)$"
-      #   "opacity 0.80 0.80, class:^(kitty)$"
-      #   "opacity 0.80 0.80, class:^(legcord)$"
-      #   "opacity 0.80 0.80, class:^(spotify)$"
-      # ];
-
       bindm = [
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
       ];
 
-      "$vol_show" = ''notify-send -a "t2" -r 91190 -t 800 "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk -F': ' '{ printf "%d%%\n", $2 * 100 }')"'';
+      "$vol_show" =
+        ''notify-send -a "t2" -r 91190 -t 800 "$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk -F': ' '{ printf "%d%%\n", $2 * 100 }')"'';
 
       bindl = [
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioPlay, exec, playerctl play-pause"
         ", XF86AudioNext, exec, playerctl next"
-        ", XF86AudioPrev, exec, playerctl previ"
+        ", XF86AudioPrev, exec, playerctl previous"
       ];
 
       bindel = [
@@ -202,36 +203,36 @@
         ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 1%+ && $vol_show"
       ];
 
-      bind =
-        [
-          "$mod+Shift, W, togglefloating"
-          "$mod+Shift, F, fullscreen"
+      bind = [
+        "$mod+Shift, W, togglefloating"
+        "$mod+Shift, F, fullscreen"
 
-          "$mod, T, exec, kitty"
-          "$mod, C, exec, librewolf"
-          "$mod, Q, killactive"
+        "$mod, T, exec, kitty"
+        "$mod, C, exec, librewolf"
+        "$mod, Q, killactive"
 
-          "$mod, Super_L, exec, pkill -x fuzzel || fuzzel"
-          # "$mod, Super_L, exec, hyprlauncher"
-          '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
+        "$mod, Super_L, exec, pkill -x fuzzel || fuzzel"
+        # "$mod, Super_L, exec, hyprlauncher"
+        '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
 
-          "$mod, mouse_up, split:workspace, +1"
-          "$mod, mouse_down, split:workspace, -1"
-        ]
-        ++ (
-          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-          builtins.concatLists (
-            builtins.genList (
-              i: let
-                ws = toString (i + 1);
-              in [
-                "$mod, ${ws}, split:workspace, ${ws}"
-                "$mod SHIFT, ${ws}, split:movetoworkspace, ${ws}"
-              ]
-            )
-            9
-          )
-        );
+        "$mod, mouse_up, split:workspace, +1"
+        "$mod, mouse_down, split:workspace, -1"
+      ]
+      ++ (
+        # binds $mod + [shift +] {1..5} to [move to] workspace {1..5}
+        builtins.concatLists (
+          builtins.genList (
+            i:
+            let
+              ws = toString (i + 1);
+            in
+            [
+              "$mod, ${ws}, split:workspace, ${ws}"
+              "$mod SHIFT, ${ws}, split:movetoworkspace, ${ws}"
+            ]
+          ) 5
+        )
+      );
     };
   };
   home.sessionVariables.NIXOS_OZONE_WL = "1";

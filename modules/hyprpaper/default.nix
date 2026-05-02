@@ -1,15 +1,13 @@
-_: let
-  wp = toString ./nixos.png;
-  wc = "," + wp;
-in {
+_: {
   services.hyprpaper = {
     enable = true;
     settings = {
-      ipc = "on";
       splash = false;
 
-      preload = [wp];
-      wallpaper = [wc];
+      wallpaper = {
+        monitor = "";
+        path = toString ./nixos.png;
+      };
     };
   };
 }

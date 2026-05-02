@@ -1,8 +1,6 @@
-Hyprland
-# if ((uwsm check may-start | complete | get exit_code) == 0) {
-#   uwsm start hyprland-uwsm.desktop
-# }
+let tty_info = (^tty | complete)
 
-# if uwsm check may-start && uwsm select; then
-# 	exec uwsm start default
-# fi
+if $tty_info.exit_code == 0 and ($tty_info.stdout | str trim) == "/dev/tty1" {
+  ^start-hyprland
+  exit
+}

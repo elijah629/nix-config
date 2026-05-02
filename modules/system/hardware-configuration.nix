@@ -1,10 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -17,9 +17,9 @@
     "usbhid"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-amd"];
-  boot.extraModulePackages = [];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.extraModulePackages = [ ];
 
   # boot.initrd.luks.devices."luks-34c76cce-5afd-4d30-9a99-ce905897ae6c".device = "/dev/disk/by-uuid/34c76cce-5afd-4d30-9a99-ce905897ae6c";
 
@@ -32,7 +32,7 @@
     ];
   };
 
-  swapDevices = [];
+  swapDevices = [ ];
 
   networking.useDHCP = lib.mkDefault true;
 
@@ -54,5 +54,20 @@
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."root".device = "/dev/disk/by-uuid/34c76cce-5afd-4d30-9a99-ce905897ae6c";
+  fileSystems."/mnt/nas" = {
+    device = "//192.168.7.59/NAS";
+    fsType = "cifs";
+    options = [
+      "credentials=/etc/nixos/.smb-credentials"
+      "uid=1000"
+      "gid=1000"
+      "file_mode=0644"
+      "dir_mode=0755"
+    ];
+  };
+
+  boot.initrd.luks.devices."root" = {
+    device = "/dev/disk/by-uuid/34c76cce-5afd-4d30-9a99-ce905897ae6c";
+    crypttabExtraOpts = [ "timeout=0" ];
+  };
 }

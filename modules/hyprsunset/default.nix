@@ -10,7 +10,7 @@ _: {
         }
         {
           time = "20:00";
-          temperature = 5000;
+          temperature = 6000;
         }
       ];
     };

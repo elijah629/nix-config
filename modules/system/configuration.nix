@@ -2,7 +2,8 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -13,6 +14,7 @@
     ./xdg.nix
     ./boot.nix
     ./networking.nix
+    ./bluetooth.nix
     ./nix.nix
     # ./nvidia.nix
     ./amdgpu.nix
@@ -42,12 +44,17 @@
     portalPackage =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 
-    # withUWSM = true;
+    withUWSM = false;
   };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   environment.systemPackages = with pkgs; [
+    samba
+    cifs-utils
+
+    hyprpolkitagent
+
     git
     efibootmgr
     gcc
@@ -55,18 +62,18 @@
       let
         base = pkgs.appimageTools.defaultFhsEnvArgs;
       in
-        pkgs.buildFHSEnv (
-          base
-          // {
-            name = "fhs";
-            targetPkgs = pkgs:
+      pkgs.buildFHSEnv (
+        base
+        // {
+          name = "fhs";
+          targetPkgs =
+            pkgs:
             # pkgs.appimageTools provides basic packages required by most software.
-              base.targetPkgs pkgs;
-            profile = "export FHS=1";
-            runScript = "nu";
-            extraOutputsToInstall = ["dev"];
-          }
-        )
+            base.targetPkgs pkgs;
+          profile = "export FHS=1";
+          extraOutputsToInstall = [ "dev" ];
+        }
+      )
     )
   ];
 

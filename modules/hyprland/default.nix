@@ -39,14 +39,12 @@
       ];
 
       monitorv2 = [
-        /*
-          {
-            output = "desc:Dell Inc. DELL S2719DM FKR0RS2";
-            mode = "2560x1440@74.97";
-            position = "0x328";
-            scale = 1;
-          }
-        */
+        {
+          output = "desc:Dell Inc. DELL S2719DM FKR0RS2";
+          mode = "2560x1440@74.97";
+          position = "0x328";
+          scale = 1;
+        }
         {
           output = "desc:Shenzhen KTC Technology Group H27T22 0x00000001";
           mode = "highrr";
